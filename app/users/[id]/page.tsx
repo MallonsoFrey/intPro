@@ -5,13 +5,16 @@ import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { getUsers } from "@/lib/data";
 
-// Функция для получения одного пользователя по ID
 async function getUser(id: string) {
   const users = await getUsers();
   return users.find((user) => user.id.toString() === id);
 }
 
 export default async function UserPage({ params }: { params: { id: string } }) {
+  if (!params.id) {
+    return notFound();
+  }
+
   const user = await getUser(params.id);
 
   if (!user) {
