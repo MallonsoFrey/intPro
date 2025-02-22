@@ -21,18 +21,18 @@ async function getUser(id: UserId): Promise<User | undefined> {
   return usersMap[id];
 }
 
-interface UserPageProps {
-  params: {
-    id: string;
-  };
+type UserPageProps = {
+  params: Promise<{ id: string }>
 }
 
 export default async function UserPage({ params }: UserPageProps) {
-  if (!params.id) {
+  const id = (await params).id
+
+  if (!id) {
     return notFound();
   }
 
-  const user = await getUser(params.id);
+  const user = await getUser(id);
 
   if (!user) {
     return notFound();
