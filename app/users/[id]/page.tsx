@@ -4,10 +4,22 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { getUsers } from "@/lib/data";
+import { User } from "@/lib/data";
 
-async function getUser(id: string) {
+
+type UserId = string;
+async function getUsersMap(): Promise<Record<UserId, User>> {
   const users = await getUsers();
-  return users.find((user) => user.id.toString() === id);
+  
+  return users.reduce((acc, user) => {
+    acc[user.id] = user;
+    return acc;
+  }, {} as Record<UserId, User>);
+}
+
+async function getUser(id: UserId): Promise<User | undefined> {
+  const usersMap = await getUsersMap();
+  return usersMap[id];
 }
 
 export default async function UserPage({ params }: { params: { id: string } }) {
