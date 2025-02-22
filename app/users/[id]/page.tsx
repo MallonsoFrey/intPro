@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { getUsers } from "@/lib/data";
 import { User } from "@/lib/data";
 
-
 type UserId = string;
 async function getUsersMap(): Promise<Record<UserId, User>> {
   const users = await getUsers();
@@ -22,7 +21,13 @@ async function getUser(id: UserId): Promise<User | undefined> {
   return usersMap[id];
 }
 
-export default async function UserPage({ params }: { params: { id: string } }) {
+interface UserPageProps {
+  params: {
+    id: string;
+  };
+}
+
+export default async function UserPage({ params }: UserPageProps) {
   if (!params.id) {
     return notFound();
   }

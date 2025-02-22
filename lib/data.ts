@@ -22,13 +22,13 @@ export interface User {
 
 export async function getUsers(): Promise<User[]> {
     const res = await fetch("https://jsonplaceholder.typicode.com/users", {
-        cache: "no-store", // Отключает кеширование для свежих данных
+        cache: "no-store", 
     });
 
     if (!res.ok) {
         throw new Error("Ошибка загрузки пользователей");
     }
 
-    return res.json(); // TypeScript автоматически приведёт к типу `User[]`
+    return res.json(); 
 }
 
